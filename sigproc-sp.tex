@@ -1,0 +1,180 @@
+% THIS IS SIGPROC-SP.TEX - VERSION 3.1
+% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
+% APRIL 2009
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+%       1) The Permission Statement
+%       2) The Conference (location) Info information
+%       3) The Copyright Line with ACM data
+%       4) Page numbering
+% ---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@hq.acm.org
+%
+% For tracking purposes - this is V3.1SP - APRIL 2009
+
+
+% require the `acm_proc_article-sp.cls` file.
+\documentclass{acm_proc_article-sp}
+
+\begin{document}
+
+\title{Matain-e-nator: \ttlit{Make the World a Better Place}}
+%
+% You need the command \numberofauthors to handle the 'placement
+% and alignment' of the authors beneath the title.
+%
+% For aesthetic reasons, we recommend 'three authors at a time'
+% i.e. three 'name/affiliation blocks' be placed beneath the title.
+%
+% NOTE: You are NOT restricted in how many 'rows' of
+% "name/affiliations" may appear. We just ask that you restrict
+% the number of 'columns' to three.
+%
+% Because of the available 'opening page real-estate'
+% we ask you to refrain from putting more than six authors
+% (two rows with three columns) beneath the article title.
+% More than six makes the first-page appear very cluttered indeed.
+%
+% Use the \alignauthor commands to handle the names
+% and affiliations for an 'aesthetic maximum' of six authors.
+% Add names, affiliations, addresses for
+% the seventh etc. author(s) as the argument for the
+% \additionalauthors command.
+% These 'additional authors' will be output/set for you
+% without further effort on your part as the last section in
+% the body of your article BEFORE References or any Appendices.
+
+\numberofauthors{3} %  in this sample file, there are a *total*
+% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+% reasons) and the remaining two appear in the \additionalauthors section.
+%
+\author{
+% You can go ahead and credit any number of authors here,
+% e.g. one 'row of three' or two rows (consisting of one row of three
+% and a second row of one, two or three).
+%
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+%
+% 1st. author
+\alignauthor
+Xin Liu\\
+       \affaddr{University at Buffalo}\\
+       \affaddr{1932 Wallamaloo Lane}\\
+       \email{xliu36@buffalo.edu}
+% 2nd. author
+\alignauthor
+John Longanecker\\
+       \affaddr{University at Buffalo}\\
+       \affaddr{P.O. Box 1212}\\
+       \email{webmaster@marysville-ohio.com}
+% 3rd. author
+\alignauthor
+Juehui Zhang\\
+       \affaddr{University at Buffalo}\\
+       \affaddr{Hekla, Iceland}\\
+       \email{larst@affiliation.org}
+%\and  % use '\and' if you need 'another row' of author names
+}
+
+\maketitle
+
+\begin{abstract}
+Our goal is to improve the overall quality of a facility as well as decrease an organization’s overall operating expenses. 
+By letting those who maintain facilities know about problems sooner. They can react quicker and more efficiently if they have better information about the status of their facilities. 
+\textit{Maintain-e-nator} provides a cell phone application to report problems as well as a web interface to 
+allow maintenance workers to be notified of new problems.
+\end{abstract}
+
+% A category with the (minimum) three required fields
+\category{H.4}{Information Systems Applications}{Miscellaneous}
+%A category including the fourth, optional field follows...
+\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+
+\terms{Applications}
+
+ % NOT required for Proceedings
+\keywords{ACM proceedings, \LaTeX, text tagging}
+
+%==========
+% INTRODUCTION
+%==========
+\section{Introduction}
+Eventually everything breaks. Nothing lasts forever. Buildings start as brand new but eventually break down. 
+Roads start as smooth, but eventually develop potholes. 
+These breakdowns can sometimes be ignored like a squeaky door, but others can cause safety and health risks. 
+If the stairs of a building are in disrepair they could cause a tripping hazard for other people.
+
+%==========
+% Motivation
+%==========
+\section{Motivations}
+It is easy for a large organization to be unaware of all the maintenance problems that their facilities have. 
+Some obscure room may need a light bulb replaced but those that work in that area do not report the problem or are not around when the build is exhibiting its behaviors. 
+So the people who take a night class are the only ones aware of the problem. 
+They do not know where to submit a problem and are often not willing to do the necessary research to find out how to report a problem.
+
+These problems are not limited to the indoors. They can also involve roads, landscaping, sidewalks, outdoor sports facilities.
+
+\subsection{What is a problem?}
+We consider a maintenance problem anything that can hurt someone as well as something that detracts from the overall quality of the facilities. 
+So a dirty floor or table could be considered a problem. 
+At the end of the day the users who submit a problem are the ones who are deciding what a problem is. 
+Who better to determine a problem then those who actually use the facilities?
+
+\subsection{Goal}
+The overall goal is to make maintenance workers aware of the problems that exists on their property. 
+Are android application and web interface will not promise cleaner facilities. Our goal is to help those that manage a property.
+
+%==========
+% DESIGN
+%==========
+\section{Design}
+We use \cite{django} as our web server framework.
+
+%==========
+% CONCLUSION
+%==========
+\section{Conclusions}
+This paragraph will end the body of this sample document.
+Remember that you might still have Acknowledgments or
+Appendices; brief samples of these
+follow.  There is still the Bibliography to deal with; and
+we will make a disclaimer about that here: with the exception
+of the reference to the \LaTeX\ book, the citations in
+this paper are to articles which have nothing to
+do with the present subject and are used as
+examples only.
+
+\section{Acknowledgments}
+This section is optional; it is a location for you
+to acknowledge grants, funding, editing assistance and
+what have you.  In the present case, for example, the
+authors would like to thank Gerald Murray of ACM for
+his help in codifying this \textit{Author's Guide}
+and the \textbf{.cls} and \textbf{.tex} files that it describes.
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{sigproc}
+\balancecolumns
+% That's all folks!
+\end{document}
