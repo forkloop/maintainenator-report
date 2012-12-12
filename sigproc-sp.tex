@@ -26,9 +26,13 @@
 %
 % For tracking purposes - this is V3.1SP - APRIL 2009
 
-
 % require the `acm_proc_article-sp.cls` file.
 \documentclass{acm_proc_article-sp}
+
+\usepackage{url}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage{subfigure}
 
 \begin{document}
 
@@ -147,7 +151,69 @@ Are android application and web interface will not promise cleaner facilities. O
 % DESIGN
 %==========
 \section{Design}
-We use \cite{django} as our web server framework.
+Our application comprises of two part: the Android App and the backend provide the web service. 
+submitter and maintainer.
+\ldots
+
+\subsection{Android App}
+We programmed our app\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} on the Android~\cite{android} platform.
+Our app mainly has three modules:
+\begin{inparaenum}
+ \item login module
+ \item localization module
+ \item information module
+ \end{inparaenum}\\
+ Below we talk about these three modules in detail.
+ \subsubsection{Login}
+ Whenever some user wants to submit issues and open the app, she can choose to log in the app with her Google account or anonymously.
+ We choose Google account because it is available in (or necessary for ) every Android device. We add some personal decorations for user
+ logs in with Google account, and once the user submit an issue, we will also pass their personal information (i.e., name and email address)
+ to backend server, which maybe used in the future for contacting with the user. Oauth part \ldots 
+
+\subsubsection{Localization}
+ % move to localization part
+ Each time when a submitter open the activity for filling an issue, the app will start to request a single location update via 
+ Network or GPS. We prefer Network over GPS for it is much faster and accurate enough with the omni Wi-Fi APs within campus.
+ Also since it is unlikely for the submitter to move around when submitting an issue, we only request \textit{single} location update 
+ to save battery life. 
+ If the submitter is indoor, we will try to guess which hall she maybe in by calculating the Euclidean distance between current geolocation 
+ and some predefined geolocations of halls we current support, and find the smallest one which could be the hall the submitter is in. 
+ However, if the submitter is outdoor, we will try to get a meaningful location of the submitter by using 
+ Google Place API~\cite{google-place} with current geolocation data. 
+ 
+ \subsubsection{Info}
+ For future maintainers can locate the issue position accurately and easily, we hope submitters can report the issue location 
+ as detail as possible. Since the location for indoor and outdoor could be very different, to ease the process the filling the detail
+ of an issue, we has two different forms for indoor and outdoor separately, as Fig~\ref{fig:form}. 
+ \begin{figure*}[!hbt]
+ \centering
+ \subfigure{\includegraphics[scale=0.3]{images/outdoor_form.png}}
+ \subfigure{\includegraphics[scale=0.3]{images/indoor_form.png}}
+ \caption{Issue form.} \label{fig:form}
+ \end{figure*}
+ % move to localization part
+ Each time when a submitter open the activity for filling an issue, the app will start to request a single location update via 
+ Network or GPS. We prefer Network over GPS for it is much faster and accurate enough with the omni Wi-Fi APs within campus.
+ Also since it is unlikely for the submitter to move around when submitting an issue, we only request \textit{single} location update 
+ to save battery life. 
+ If the submitter is indoor, we will try to guess which hall she maybe in by calculating the Euclidean distance between current geolocation 
+ and some predefined geolocations of halls we current support, and find the smallest one which could be the hall the submitter is in. 
+ However, if the submitter is outdoor, we will try to get a meaningful location of the submitter by using 
+ Google Place API~\cite{google-place} with current geolocation data. 
+ 
+Only text may not be that descriptive when describing an issue, thus we also encourage submitter to add photos and 
+even an audio recording regarding the location or issue detail. By \texttt{long-press} the image area, 
+the submitter can add up to three photos either from camera capture or gallery. Of course the submitter can view the full-size photo by
+~\texttt{clicking} it and decide whether to keep it or replace it with a new one. Also, when submitter \texttt{holding} the recording button,
+the app will recording the audio in \texttt{wav} format. We choose \texttt{wav} because it is the quick and dirty way to enable the recorded
+audio can be played back both on Android and browser. The supported recording formats on Android (or to our best knowledge on Nexus S)
+, e.g., \texttt{mp4}, \texttt{\ldots} are not supported by current browsers. While the other formats supported by browser without any plugins,
+\texttt{mp3, ogg} need third-party native libraries to be recorded on Android devices. 
+
+\subsubsection{Others}
+
+\subsection{Backend}
+We use~\cite{django} as our web server framework.
 
 %==========
 % CONCLUSION
