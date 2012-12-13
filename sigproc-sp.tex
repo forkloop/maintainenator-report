@@ -101,7 +101,7 @@ Juehui Zhang\\
 \maketitle
 
 \begin{abstract}
-Our goal is to improve the overall quality of a facility as well as decrease an organization’s overall operating expenses. 
+Our goal is to improve the overall quality of a facility as well as decrease an organization's overall operating expenses. 
 By letting those who maintain facilities know about problems sooner. They can react quicker and more efficiently if they have better information about the status of their facilities. 
 \textit{Maintain-e-nator} provides a cell phone application to report problems as well as a web interface to 
 allow maintenance workers to be notified of new problems.
@@ -113,9 +113,6 @@ allow maintenance workers to be notified of new problems.
 \category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
 \terms{Applications}
-
- % NOT required for Proceedings
-\keywords{ACM proceedings, \LaTeX, text tagging}
 
 %==========
 % INTRODUCTION
@@ -151,12 +148,17 @@ Are android application and web interface will not promise cleaner facilities. O
 % DESIGN
 %==========
 \section{Design}
-Our application comprises of two parts: the Android App and the backend server, which are supposed for two kind of users: 
-\texttt{submitter} and \texttt{maintainer}. Data flow can be depicted as Fig.~.
-\ldots
+Our application comprises of two parts: the Android application and the backend web application, which are supposed for two kind of users:
+\texttt{submitter} and \texttt{maintainer}. Data flow can be depicted as Fig.~\ldots.
+
+The data flow of our application is fairly intuitive: whenever submitters spot some facility issues, they open up the Android application, which will
+try to locate their position and generate the meaningful one, the submitters can take few photos of the issue or record some audio regarding to
+the issue, then just hit the submit button, that's it! The rest for maintainers, they can use the web application to organize all the submitted issues,
+log their progresses on repair the issues. And if submitters choose to report the issues with their Google accounts, the backend can also update
+the issues status to submitters via email notifications automatically.
 
 \subsection{Android Application}
-We programmed our app\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} on the Android~\cite{android} platform.
+We programmed our application\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} on the Android~\cite{android} platform.
 Our app mainly has three modules:
 \begin{inparaenum}
  \item login module
@@ -165,12 +167,15 @@ Our app mainly has three modules:
  \end{inparaenum}\\
  Below we talk about these three modules in detail.
  \subsubsection{Login}
- Whenever some submitter wants to submit issues and open the app, she can choose to log in the app with her Google account or anonymously.
- We choose Google account because it is available in (or necessary for ) every Android device. We add some personal decorations for user
- logs in with Google account, and once the user submit an issue, we will also pass their personal information (i.e., name and email address)
- to backend server, which maybe used in the future for contacting with the user. With the \texttt{AccountManager} in Android library, we
- can only get the submitter's email address. To make our app more personalize, we also want the submitter's profile information.
- Once the submitter grant the app permission to retrieve her profile with the access token, we can use it to get the submitter information via calling UserInfo Google API~\cite{google-user-api}. This whole process follows the \texttt{OAuth2} specification~\cite{oauth2};
+ Whenever some submitter wants to submit issues and open the application, she can choose to log in the application with her Google account or anonymously.
+ We choose Google account because it is available in (or necessary for ) every Android device. We add some personal settings for users
+ logs in with their Google accounts, and once the user submit some issue, the application will also pass her personal information (just name and email address)
+ to our web application, which maybe used in the future for contacting with the user. With the \texttt{AccountManager} in Android library, we
+ can only get the submitter's email address. To make our app more personalize, we want a little more of submitter's profile information.
+ Once the submitter grant the application permission to retrieve her profile with the access token,
+ we can use it to request the submitter information via calling UserInfo Google API~\cite{google-user-api}.
+ This whole process follows the \texttt{OAuth2} specification~\cite{oauth2}.
+ The application won't try to remember how the submitter logged in last time and use it for next time, each time submitter can choose whatever manner she wants.
 
 \subsubsection{Localization}~\label{sec:localization}
  Each time when a submitter open the activity for filling an issue, the app will start to request a single location update via 
@@ -214,7 +219,8 @@ We will also save all the issues reported by one submitter locally on the Androi
 view the details of all the issues she reported before.
 
 \subsection{Web Application}
-For backend web service, we host our web application code on \texttt{heroku}~\footnote{\url{https://www.heroku.com/}}, which is a
+For backend web service\footnote{\url{http://maintain-e-nator.herokuapp.com}}, 
+we host our web application code on \texttt{heroku}~\footnote{\url{https://www.heroku.com/}}, which is a
 cloud application platform that saves us from all kinds of pitfalls in servers management, deployment. 
 Since \texttt{heroku} does not store static files as well as users upload files, 
 we use \texttt{Amazon S3}~\footnote{\url{https://aws.amazon.com/s3/}} for this task.
@@ -233,18 +239,48 @@ submitted date \textit{etc}. Maintainers can view the issues locations on Google
 audio recording. Maintainers can also record their working progress for a specific issue. 
 
 \subsubsection{Public site}
-The public site is intended for all to browse existing issues. We work on this public site to make it like an Single-page application~\cite{wiki-spa}, 
-which can provide user a better experience with waterfall-like scrolling, no more page reloading when view different issues. 
-We use \texttt{Backbone.js}~\footnote{\url{http://backbonejs.org/}} as for our frontend MVC. The whole interaction with the backend is via the 
-RESTful JSON interface. 
+The web application also has a public site that is intended for all to browse existing issues.
+Inspired by \texttt{Pinterest, Airbnb} and other similar websites, we work on this public site to make it as an Single-page application~\cite{wiki-spa}, 
+which can offer users a better experience with the infinite-scrolling, no more page reloading when viewing different issues. 
+This is done by adding a model-view-controller (MVC) layer to user browser, and we use \texttt{Backbone.js}~\footnote{\url{http://backbonejs.org/}} 
+as our frontend MVC. So when user first open this public site, it start to render a page and fetch the required data asynchronously from web application RESTful
+API, with user scrolling down for more, it continues pre-fetching more data. Its ability to redraw any part of the UI without requiring a server roundtrip to retrieve
+HTML makes it more-native-app-like~\cite{spa-book}.
+The whole interaction with the backend is via the web application RESTful JSON interface. 
 
 \subsubsection{Others}
 The web application provides a RESTful API, which the Android application uses to submit an issue, or the public site uses to retrieve the issues
 information. We use \texttt{tastypie}~\footnote{\url{http://tastypieapi.org/}} to build this REST-style interface. We did little hack on \texttt{tastypie}
 for this API to support file upload via \texttt{mixin}.
 
+Normally, for a web application, besides handling income requests, it has other tasks like preprocessing uploaded images, sending emails to registered users,
+and you don't want to mix these kinds of slow processes with HTTP handlers, for this would greatly slow down the request-response cycle, jeopardize users
+experience. Thus we separate these kinds of tasks to other processes,
+and use \texttt{foreman}\footnote{\url{http://ddollar.github.com/foreman/}} to manage them all.
 There are two kinds of processes for our web application, the \texttt{web process} is for responding all HTTP requests, either rendering a view or
-return some JSON data. While the \texttt{worker process} is for all other not emergent tasks, \textit{e.g.}, sending submitters emails.
+return some JSON data. While the \texttt{worker process} is for all other not emergent tasks, \textit{e.g.}, sending submitters emails regarding the issues they
+submitted.
+
+%==========
+% TEST
+%==========
+\section{Test}
+\ldots
+
+%==========
+% FUTURE WORK
+%==========
+\section{Future Work}
+Though our application \ldots, there are a lot room for future improvement.
+\begin{inparaenum}
+ \item Current we didn't compress the photos and audio recording when sending them to the web application, which maybe consume a lot of data if the
+ phone doesn't connect to Wi-Fi. To fix this, we can resize down the photos, and use a compressed audio format for recording the audio. Or we can allow
+ submitters save current report and submit it later when they have Wi-Fi connection.
+ \item The web application admin site is still \ldots, some functions like collapse the same issues reported by different submitters, allow issues fixing
+ assignment to maintainers.
+ \item We only tested the application within three of us, in the future, we can utilize \texttt{PhoneLab}~\footnote{\url{http://www.phone-lab.org/}} to
+ fully test our application.
+\end{inparaenum}
 
 %==========
 % CONCLUSION
@@ -260,8 +296,8 @@ Maintainers can view the issues locations on Google Maps, get an idea of what th
 % ACKNOWLEDGE
 %==========
 \section{Acknowledgments}
-We would like to thank Jeff and Steve for their valuable suggestions. We would also like to thank 
-PhoneLab~\footnote{\url{http://www.phone-lab.org/}} to provide us android phones.
+We would like to thank Prof. Steven Y. Ko and Prof. Geoffrey Challen for their valuable suggestions. We would also like to thank 
+PhoneLab for providing us Android phones.
 
 \bibliographystyle{abbrv}
 \bibliography{sigproc}
