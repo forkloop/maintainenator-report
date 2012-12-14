@@ -151,8 +151,12 @@ Are android application and web interface will not promise cleaner facilities. O
 %==========
 \section{Design}
 Our application comprises of two parts: the Android application and the backend web application, which are supposed for two kind of users:
-\texttt{submitter} and \texttt{maintainer}. Data flow can be depicted as Fig.~\ldots.
-
+\texttt{submitter} and \texttt{maintainer}. Data flow can be depicted as Fig.~\ref{fig:diagram}.
+\begin{figure*}
+\centering
+\includegraphics[scale=0.1]{images/diagram.png}
+\caption{}\label{fig:diagram}
+\end{figure*}
 The data flow of our application is fairly intuitive: whenever submitters spot some facility issues, they open up the Android application, which will
 try to locate their position and generate the meaningful one, the submitters can take few photos of the issue or record some audio regarding to
 the issue, then just hit the submit button, that's it! The rest for maintainers, they can use the web application to organize all the submitted issues,
@@ -303,7 +307,8 @@ Though our application \ldots, there are a lot room for future improvement.
  phone doesn't connect to Wi-Fi. To fix this, we can resize down the photos, and use a compressed audio format for recording the audio. Or we can allow
  submitters save current report and submit it later when they have Wi-Fi connection.
  \item The web application admin site is still \ldots, some functions like collapse the same issues reported by different submitters, allow issues fixing
- assignment to maintainers.
+ assignment to maintainers. 
+ Meanwhile, we would like to use some open-source project tracking system, e.g., \texttt{trac}\footnote{\url{http://trac.edgewall.org/}}, and tailoring as we need.
  \item We only tested the application within three of us, in the future, we can utilize \texttt{PhoneLab}~\footnote{\url{http://www.phone-lab.org/}} to
  fully test our application.
 \end{inparaenum}
