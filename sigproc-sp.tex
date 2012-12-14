@@ -208,7 +208,8 @@ it is mainly consisted of three modules:
  \centering
  \subfigure{\includegraphics[scale=0.3]{images/outdoor_form.png}}
  \subfigure{\includegraphics[scale=0.3]{images/indoor_form.png}}
- \caption{Issue form.} \label{fig:form}
+ \subfigure{\includegraphics[scale=0.3]{images/reports.png}}
+ \caption{Android application screenshots, from left to right, outdoor report form, indoor report form, report history.} \label{fig:form}
  \end{figure*}
  The application requires submitter to at least provide a description, the location (which maybe acquired automatically as described in 
  Sec.~\ref{sec:position} or replaced by submitter). For current indoor experiment, we only support four halls - Davis Hall, Jarvis Hall, 
@@ -277,7 +278,7 @@ and you don't want to mix these kinds of slow processes with HTTP handlers, for 
 experience. Thus we separate these kinds of tasks to other processes,
 and use \texttt{foreman}\footnote{\url{http://ddollar.github.com/foreman/}} to manage them all.
 There are two kinds of processes for our web application, the \texttt{web process} is for responding all HTTP requests, either rendering a view or
-return some JSON data. While the \texttt{worker process} is for all other not emergent tasks, \textit{e.g.}, sending submitters emails regarding the issues they
+returning some JSON data. While the \texttt{worker process} is for all other not emergent tasks, \textit{e.g.}, sending submitters emails regarding the issues they
 submitted.
 
 %==========
@@ -285,15 +286,19 @@ submitted.
 %==========
 \section{Test}
 We developed and tested our Android application on Google Nexus S with 4.1.2 version. The Android application should also work fine on the
-4.0.* platform. The location suggested \framedots
-The source codes for both Android application\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} and
-web application\footnote{\url{https://github.com/forkloop/Maintainenator-backend}} are available on \texttt{github}.
+4.0.* platform. The textual location suggested by Google Places API would be less accurate for outdoor place near the new building, e.g., Davis Hall
+(possible reason could be that this new building hasn't been indexed by Google).
+The size of the \texttt{wav} file for a $10$ seconds audio recording is around \texttt{1.8M}.
+And normally, it takes $4$ seconds to upload an issue report having two photos and a $5$ seconds audio recordings with Wi-Fi connected.
+Source codes for both Android application\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} and
+web application\footnote{\url{https://github.com/forkloop/Maintainenator-backend}} are available on \texttt{GitHub}.
+
 %==========
 % FUTURE WORK
 %==========
 \section{Future Work}
 Though our application \ldots, there are a lot room for future improvement.
-\begin{inparaenum}
+\begin{inparaenum}[(i)]
  \item Current we didn't compress the photos and audio recording when sending them to the web application, which maybe consume a lot of data if the
  phone doesn't connect to Wi-Fi. To fix this, we can resize down the photos, and use a compressed audio format for recording the audio. Or we can allow
  submitters save current report and submit it later when they have Wi-Fi connection.
