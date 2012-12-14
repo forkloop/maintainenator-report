@@ -33,6 +33,7 @@
 \usepackage{paralist}
 \usepackage{graphicx}
 \usepackage{subfigure}
+\usepackage{enumitem}
 
 \begin{document}
 
@@ -103,7 +104,7 @@ Juehui Zhang\\
 \maketitle
 
 \begin{abstract}
-Our system seeks to improve the quality of a facility as well as decrease an organization's overall operating expenses.  By letting those who maintain facilities know about problems sooner. Maintenance workers can react quicker and more efficiently if they have better information about the status of their facilities.  \textit{Maintain-e-nator} provides a cell phone application to report problems as well as a web interface to allow workers to manage and be notified of problems.
+Our system seeks to improve the quality of a facility as well as decrease an organization's overall operating expenses.  By letting those who maintain facilities know about issues sooner. Maintenance workers can react quicker and more efficiently if they have better information about the status of their facilities.  \textit{Maintain-e-nator} provides a cell phone application to report issues as well as a web interface to allow workers to manage and be notified of issues.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -117,22 +118,59 @@ Our system seeks to improve the quality of a facility as well as decrease an org
 % INTRODUCTION
 %==========
 \section{Introduction}
-Eventually everything breaks. Nothing lasts forever. Buildings start as brand new but eventually break down.  Roads start as smooth, but eventually develop potholes.  These breakdowns can sometimes be ignored like a squeaky door, but others can cause safety and health risks. If the stairs of a building are in disrepair they could cause a tripping hazard for other people. The reasons for something not being fixed can vary. Budget, time, priority and awareness all play a role as to when thing get repaired. We seek to streamline the process at which maintainers become aware of problems.
+Eventually everything will break down. No matter how much money you spend creating a road or building it will run into issues. Buildings start as brand new but will eventually break down.  Roads start as smooth, but eventually develop potholes.  These breakdowns can sometimes be ignored like a squeaky door, but others can cause safety and health risks. If the stairs of a building are in disrepair they could cause a tripping hazard for other people. The reasons for something not being fixed can vary. Budget, time, priority and awareness all play a role as to when thing get repaired. We seek to streamline the process at which maintainers become aware of these issues.
+
+This project is broken down into two components:
+\vspace{-4mm}
+\begin{enumerate}[itemsep=0mm]
+\item Android application - This application is used to create a report that will be submitted to a central web server. The user creating this report can submit an image, audio recording and a description of the reported issues.
+\item Web Interface - This web interface is broken down into two parts on is a central place that an authorized user can use to access a list of all submitted issues. This interface allows users to modify an issues such as add additional images or change an issues status. The other part of the web interface is a public listing of all the currently submitted issues.
+\end{enumerate}
+
+So there are two different types of users when it comes to our project:
+\vspace{-7mm}
+\begin{enumerate}[itemsep=2mm]
+\item Submitters - These are people who notice or find an issues with the facilities. They will then need to report the issues using the \textit{Maintain-e-Nator} Android application.
+\item Maintainers - These are the people who maintain the facility. They will use a web interface to make them aware of an issues that are submitted as well as change a status of an issue.
+\end{enumerate}
+
+So we will describe a basic example of how all these examples work together. A submitter is walking through a building on campus and notices that one of the bathroom's automatic faucets are not responding properly when a user moves their hands in front of it. We can take a photo of the faucet and write a short description of the issue. We find that the written explanation and the photo do not accurately describe the problem. So we decide to make a short audio recording of the problem and submit the report.
+
+Once the report is submitted it will show up in the web interface. A maintainer will now log into the authorized section of the web interface. The maintainers can look at issues based on location and date. The Maintainers can now dispatch a worker to go fix the faucet. 
+
+This issue is a good example of a problem that may have gone undetected if it were not for the submitter making it known to a maintainer. Most people will be frustrated with a malfunctioning faucet, but will not report this problem if they had to call an report this issues directly to the people who maintain that bathroom. 
 
 %==========
 % Motivation
 %==========
 \section{Motivations}
-It is easy for a large organization to be unaware of all the maintenance problems that their facilities have. Some obscure room may need a light bulb replaced but those that work in that area do not report the problem or are not around when the problem is exhibiting its behaviors.  So the people who take a night class are the only ones aware of the problem.  They do not know where to submit a problem and are often not willing to do the necessary research to find out how to report a problem.
+It is easy for a large organization to be unaware of all the maintenance issues that their facilities have. Some obscure room may need a light bulb replaced but those that work in that area do not report the issue or are not around when the issue is exhibiting its behaviors.  So the people who take a night class are the only ones aware of an issues.  They do not know where to submit a issue and are often not willing to do the necessary research to find out how to report an issue.
 
-These problems are not limited to the inside of buildings. They can also involve roads, landscaping, sidewalks, and outdoor sports facilities. For example a pallet could fall off the back of a truck and be sitting in the middle of a road. Most drivers will drive around the pallet and not report it. People are not sure how to report a problem like this or it is not convenient to notify the people who maintain the road. Wouldn't it be nice if one could take out their cellphone and submit a report? Our version of \textit{Maintain-e-Nator} is targeted for the University at Buffalo's North Campus, but can easily be configured to be used in any setting.
+Issues are not limited to the inside of a buildings. They can also involve roads, landscaping, sidewalks, and outdoor sports facilities. For example a pallet could fall off the back of a truck and be sitting in the middle of a road. Most drivers will drive around the pallet and not report it. Many times it is not known how to report an issue like this or it is not convenient to notify the people who maintain the road. Wouldn't it be nice if one could take out their cellphone and submit a report? Our version of \textit{Maintain-e-Nator} is targeted for the University at Buffalo's North Campus, but can easily be configured to be used in any setting.
 
-\subsection{What is a problem?}
-So far we have talked about what a problem is, but have yet to define what constitutes a problem. We consider a maintenance problem to be anything that can hurt someone as well as anything that detracts from the overall quality of a facility. At the end of the day the users who submits a problem are the ones who are deciding what a problem is.  Who better to determine a problem then those who actually use the facilities?  
+\subsection{What is an Issue?}
+So far we have not defined what a issue is, but have yet to define what constitutes a issue. We consider a maintenance issue to be anything that detracts from the overall quality of a facility. This may seem like a very broad definition for an issues, but the overall range of an issue can very greatly. At the end of the day the users who submits an issues are the ones who are deciding what an issue is.  Who better to determine an issue then those who actually use the facilities?  
 
 \subsection{Goal}
-The overall goal is to make maintenance workers aware of the problems that exists on their property. 
-Are android application and web interface will not promise cleaner facilities. Our goal is to help those that manage a property.
+The overall goal of this project is to make maintenance workers more aware of the issues that exists on their property.
+For this project we targeted both indoors and outdoor problems. For indoor issues we only targeted four buildings on the University at Buffalo's North Campus.
+
+The four buildings that we targeted are:
+\vspace{-4mm}
+\begin{enumerate}[itemsep=0mm]
+\item Davis
+\item Ketter
+\item Furnas
+\item Jarvis
+\end{enumerate}
+\vspace{-2mm}
+
+We only target these four buildings because we did not want to have to large of a scope when it came to using our application. Adding more buildings to our system is not a lot of work, but is not necessary to prove the overall usefulness of this application. If we add more building it will complicated the interface design as well as the testing process of our application.
+
+Buildings are not guaranteed to become better if the maintainers are more aware of issues on there facility. It will certainly help in the process of improving 
+facilities and hopefully in turn create a better facility. We want to make it easier for people to submit problems. The University at Buffalo does provide a phone
+number for people to call to notify them of building problems, but this process seems dated and not convenient. If you call this number you will be asked to provide
+some personal information like full name and Student ID number.
 
 %==========
 % DESIGN
@@ -141,12 +179,12 @@ Are android application and web interface will not promise cleaner facilities. O
 Our application comprises of two parts: the Android application and the backend web application, which are designed for two kinds of users:
 \texttt{submitters} and \texttt{maintainers}. Data flow can be depicted as Fig.~\ldots.
 
-The data flow of our application is fairly intuitive: whenever a submitter spots some issues on a facility, they open up the Android application, which will
-try to locate their position and generate a meaningful location ( such as a building name or the nearest mailing address), the submitters can take a few photos of the issue and record some audio regarding to the issue, then just hit the submit button, that's it! The rest for maintainers, they can use the web application to organize all the submitted issues, log their progresses on repair the issues. And if submitters choose to report the issues with their Google accounts, the backend can also update the issues status to submitters via email notifications automatically.
+The data flow of our application is fairly straight forward. When a submitter spots some issue on a facility, they open up the Android application, which will
+try to locate their position and generate a meaningful location ( such as a building name or the nearest mailing address), the submitters can take a few photos of the issue and make an audio record regarding to the issue, then just hit the submit button, and that is it! The rest is for maintainers, they can use the web application to organize all the submitted issues and log their progresses on the status of the repair. If submitters choose to report the issues with their Google accounts they can receive status updates to submitters via email notifications automatically.
 
 \subsection{Android Application}
 We developed our client application on the Android~\cite{android} platform,
-it is mainly consisted of three modules:
+it is mainly consists of three modules:
 \begin{inparaenum}
  \item login module
  \item positioning module
@@ -154,30 +192,30 @@ it is mainly consisted of three modules:
  \end{inparaenum}
  Below we talk about these three modules in detail.
  \subsubsection{Login}
- Whenever some submitter wants to submit issues and open the application, she can choose to log in the application with her Google account or anonymously.
- We choose Google account because it is available in (or necessary for ) every Android device. We add some personal settings for users
- logs in with their Google accounts, and once the user submit some issue, the application will also pass her personal information (just name and email address)
- to our web application, which maybe used in the future for contacting with the user. With the \texttt{AccountManager} in Android library, we
- can only get the submitter's email address. To make our app more personalize, we want a little more of submitter's profile information.
- Once the submitter grant the application permission to retrieve her profile with the access token,
- we can use it to request the submitter information via calling UserInfo Google API~\cite{google-user-api}.
+ Whenever a submitter wants to submit an issues they will open the application, and decided to log into the application with their Google account or anonymously.
+ For out examples we will choose a Google account because it is available in (or necessary for ) every Android device. From the users Google account we store the 
+ name and email address, and once the user submits some issue, the application will also pass there personal information (just name and email address)
+ to our web application, which can be used in the future for contacting with the user. With the \texttt{AccountManager} in the Android library, we
+ can only get the submitter's email address. To make our app more personalized, we want a little more of the submitter's profile information.
+ Once the submitter grants the application permission to retrieve there profile with the access token,
+ we can use it to request the submitter for additional information via calling the UserInfo Google API~\cite{google-user-api}.
  This whole process follows the \texttt{OAuth2} specification~\cite{oauth2}.
- The application doesn't try to remember how the submitter logged in last time and use it for next time,
- each time submitter can choose whatever manner she wants.
+ The application doesn't try to remember how the submitter logged in last time.
+ So each time the submitter opens up the app they can choose if they want to remain anonymous or use their Google account.
 
 \subsubsection{Positioning}~\label{sec:position}
- Each time when a submitter opens the application and files an issue, the application will start to request a single location update via 
- Network or GPS. We prefer Network update over GPS for it is much faster and accurate enough with the omni Wi-Fi APs within our campus.
- Also since it is unlikely for the submitter to move around when submitting an issue, we only request \textit{single} location update 
- to save battery life. \framedots
+ Each time a submitter opens the application and files an issue, the application will initiate a single location update via the 
+ Network or GPS. We prefer the Network update over GPS for it is much faster and is accurate enough with the omni Wi-Fi access points within our campus.
+ Since it is unlikely for the submitter to move around when submitting an issue, we only request a \textit{single} location update 
+ to save the phones battery. \framedots
  
- Once the application gets the geolocation data, which is a pair of number for latitude and longitude, 
- we need to convert this geolocation into some meaningful information for the submitter.
- if the submitter is indoor (actually we will get the textual locations for both indoor and outdoor scenarios), 
- the application will try to guess which hall she maybe in by calculating the Euclidean distance between current geolocation 
+ Once the application gets the geolocation data, which is a pair of numbers for the latitude and longitude, 
+ we need to convert this geolocation into some sort of meaningful information for the submitter.
+ If the submitter is indoors (actually we will get the textual locations for both indoor and outdoor scenarios), 
+ the application will try to guess which hall we are currently in and may have to do some calculations using the Euclidean distance between current geolocation 
  and the predefined geolocations of halls we current support, and assume the one with the nearest distance is the hall the submitter is in. 
- Otherwise, if the submitter is out of door, the application will try to get the meaningful location of the submitter by using 
- Google Place API~\cite{google-place-api} with the geolocation data, Currently we just use the first result returned by this API.
+ Otherwise, if the submitter is outdoors, then the application will try to get a meaningful location of the submitter by using 
+ the Google Place API~\cite{google-place-api} with the geolocation data, Currently we just use the first result returned by this API.
  
  Submitters can modify the location information suggested by the application later. Also, for outdoor scenario, 
  we implemented a \texttt{MapView} with a draggable marker which indicates submitter current position. 
