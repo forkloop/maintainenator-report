@@ -223,6 +223,8 @@ We choose \texttt{wav} format for saving the audio recording because it is the q
 audio be played back both on the Android device and the browser.
 The supported audio recording formats on Android (to our best knowledge), e.g., \texttt{mp4, 3gp} are not supported by current browsers. 
 While the other formats supported by browsers without any plugins, e.g., \texttt{mp3, ogg} need third-party native libraries to be recorded on Android devices. 
+For~\texttt{wav} format, after we collecting the raw audio data, we just need to wrap it up with~\texttt{wav} header, 
+while the tradeoff is that file size is larger compared to those compressed formats.
 
 \subsubsection{Others}
 The application will save all the issues reported by the submitter locally on the Android device if the submitter choose to. Submitter can later
