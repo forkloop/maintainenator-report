@@ -36,6 +36,8 @@
 
 \begin{document}
 
+\newcommand{\framedots}{\framebox{\ldots}}
+
 \title{Maintain-e-nator: \ttlit{Make the World a Better Place}}
 %
 % You need the command \numberofauthors to handle the 'placement
@@ -158,13 +160,13 @@ log their progresses on repair the issues. And if submitters choose to report th
 the issues status to submitters via email notifications automatically.
 
 \subsection{Android Application}
-We programmed our application\footnote{\url{https://github.com/forkloop/Maintain-e-nator}} on the Android~\cite{android} platform.
-Our app mainly has three modules:
+We developed our client application on the Android~\cite{android} platform,
+it is mainly consisted of three modules:
 \begin{inparaenum}
  \item login module
  \item localization module
- \item information module
- \end{inparaenum}\\
+ \item information module.
+ \end{inparaenum}
  Below we talk about these three modules in detail.
  \subsubsection{Login}
  Whenever some submitter wants to submit issues and open the application, she can choose to log in the application with her Google account or anonymously.
@@ -175,21 +177,27 @@ Our app mainly has three modules:
  Once the submitter grant the application permission to retrieve her profile with the access token,
  we can use it to request the submitter information via calling UserInfo Google API~\cite{google-user-api}.
  This whole process follows the \texttt{OAuth2} specification~\cite{oauth2}.
- The application won't try to remember how the submitter logged in last time and use it for next time, each time submitter can choose whatever manner she wants.
+ The application doesn't try to remember how the submitter logged in last time and use it for next time,
+ each time submitter can choose whatever manner she wants.
 
 \subsubsection{Localization}~\label{sec:localization}
- Each time when a submitter open the activity for filling an issue, the app will start to request a single location update via 
- Network or GPS. We prefer Network over GPS for it is much faster and accurate enough with the omni Wi-Fi APs within campus.
+ Each time when a submitter opens the application and files an issue, the application will start to request a single location update via 
+ Network or GPS. We prefer Network update over GPS for it is much faster and accurate enough with the omni Wi-Fi APs within our campus.
  Also since it is unlikely for the submitter to move around when submitting an issue, we only request \textit{single} location update 
- to save battery life. 
- If the submitter is indoor, we will try to guess which hall she maybe in by calculating the Euclidean distance between current geolocation 
- and some predefined geolocations of halls we current support, and find the smallest one which could be the hall the submitter is in. 
- However, if the submitter is outdoor, we will try to get a meaningful location of the submitter by using 
- Google Place API~\cite{google-place-api} with current geolocation data.
+ to save battery life. \framedots
  
- Submitter can change the location information the app provides later. Also, for outdoor scenario, the app has a map with a marker which
- indicate where submitter currently is. However, if the geolocation provided is not that accurate or submitter moves around, 
- she can adjust the position of marker, and the app will then use that new geolocation accordingly.
+ Once the application gets the geolocation data, which is a pair of number for latitude and longitude, 
+ we need to convert this geolocation into some meaningful information for the submitter.
+ if the submitter is indoor (actually we will get the textual locations for both indoor and outdoor scenarios), 
+ the application will try to guess which hall she maybe in by calculating the Euclidean distance between current geolocation 
+ and the predefined geolocations of halls we current support, and assume the one with the nearest distance is the hall the submitter is in. 
+ Otherwise, if the submitter is out of door, the application will try to get the meaningful location of the submitter by using 
+ Google Place API~\cite{google-place-api} with the geolocation data, Currently we just use the first result returned by this API.
+ 
+ Submitters can change the location information suggested by the application later. Also, for outdoor scenario, 
+ we implemented a \texttt{MapView} with a draggable marker which indicates submitter current position. 
+ In some cases, if the geolocation provided is not that accurate or submitters move to another place after the location update, 
+ they can adjust the position of marker, then the application will use that new geolocation accordingly.
  
  \subsubsection{Info}
  For future maintainers can locate the issue position accurately and easily, we hope submitters can report the issue location 
@@ -220,30 +228,33 @@ view the details of all the issues she reported before.
 
 \subsection{Web Application}
 For backend web service\footnote{\url{http://maintain-e-nator.herokuapp.com}}, 
-we host our web application code on \texttt{heroku}~\footnote{\url{https://www.heroku.com/}}, which is a
+we host our web application on \texttt{heroku}~\footnote{\url{https://www.heroku.com/}}, which is a
 cloud application platform that saves us from all kinds of pitfalls in servers management, deployment. 
 Since \texttt{heroku} does not store static files as well as users upload files, 
 we use \texttt{Amazon S3}~\footnote{\url{https://aws.amazon.com/s3/}} for this task.
 
-We use \texttt{django}~\cite{django} web framework for our web application, its active community makes it much easier to develop web apps 
+We use \texttt{Django}~\cite{django} web framework for our web application, its active community makes it easy and fast to develop web apps 
 with numerous open source modules 
 (a full list of all open source modules we used~\footnote{\url{https://github.com/forkloop/Maintainenator-backend/blob/master/requirements.txt}}). 
 Our web application mainly has two components, private admin site, which is for maintainers to
 manage all the reported issues, and public site, which is for every one to view existing reported issues.
 
 \subsubsection{Private admin site}
-\texttt{django} is already packed with an admin module, which is not that fancy. 
+\texttt{Django} is already packed with an admin module, which however is not that fancy,
 We instead use \texttt{grappelli}~\footnote{\url{http://www.grappelliproject.com/}} for polishing up the admin
-interface. The admin site allow multiple maintainers to manage the reported issues, filtering them based on the location, severity level, status,
-submitted date \textit{etc}. Maintainers can view the issues locations on Google Maps, get an idea of what the issues are via submitted photos and
-audio recording. Maintainers can also record their working progress for a specific issue. 
-
+interface. The admin site is the main entry for maintainers, which allows multiple maintainers to manage the reported issues, 
+filter them based on the issues location, severity level, status, submitted date \textit{etc}.
+With the embedded Google Maps, maintainers can get an better idea of where the issues are for outdoor problems.
+Also, the submitted photos and audio recording can give them more direct intuitions of what the issues are.
+Maintainers can also keep tracking of their working progress for issues by add logs. Once there is an update for an issue, the web application
+will send an email notification to the submitter if there is one. Currently, we only send notification to submitter once the issue is fixed.
+ 
 \subsubsection{Public site}
 The web application also has a public site that is intended for all to browse existing issues.
 Inspired by \texttt{Pinterest, Airbnb} and other similar websites, we work on this public site to make it as an Single-page application~\cite{wiki-spa}, 
 which can offer users a better experience with the infinite-scrolling, no more page reloading when viewing different issues. 
 This is done by adding a model-view-controller (MVC) layer to user browser, and we use \texttt{Backbone.js}~\footnote{\url{http://backbonejs.org/}} 
-as our frontend MVC. So when user first open this public site, it start to render a page and fetch the required data asynchronously from web application RESTful
+as our frontend MVC. When user first open this public site, it starts to render a page and fetch the required data asynchronously from web application RESTful
 API, with user scrolling down for more, it continues pre-fetching more data. Its ability to redraw any part of the UI without requiring a server roundtrip to retrieve
 HTML makes it more-native-app-like~\cite{spa-book}.
 The whole interaction with the backend is via the web application RESTful JSON interface. 
@@ -252,6 +263,10 @@ The whole interaction with the backend is via the web application RESTful JSON i
 The web application provides a RESTful API, which the Android application uses to submit an issue, or the public site uses to retrieve the issues
 information. We use \texttt{tastypie}~\footnote{\url{http://tastypieapi.org/}} to build this REST-style interface. We did little hack on \texttt{tastypie}
 for this API to support file upload via \texttt{mixin}.
+
+Because \texttt{heroku} doesn't store user uploaded files, we use \texttt{Amazon S3} to store the photos and audio recording uploaded by submitters.
+With \texttt{boot}\footnote{\url{http://docs.pythonboto.org/}}, we can achieve the transfer of uploaded files from \texttt{Heroku} to \texttt{Amazon S3}
+transparently, once the web application receives a file from submitter, it is written to \texttt{Amazon S3} directly.
 
 Normally, for a web application, besides handling income requests, it has other tasks like preprocessing uploaded images, sending emails to registered users,
 and you don't want to mix these kinds of slow processes with HTTP handlers, for this would greatly slow down the request-response cycle, jeopardize users
@@ -265,7 +280,7 @@ submitted.
 % TEST
 %==========
 \section{Test}
-\ldots
+We developed and tested our Android application on Google Nexus S with 4.1.2 SDK. \framedots
 
 %==========
 % FUTURE WORK
@@ -302,5 +317,43 @@ PhoneLab for providing us Android phones.
 \bibliographystyle{abbrv}
 \bibliography{sigproc}
 \balancecolumns
+
+\clearpage
+\appendix
+\section{Accomplishments}
+Here we list our accomplishments for each milestone, 
+the slides for each milestone demo can been viewed in \texttt{speakerdeck}\footnote{\url{https://speakerdeck.com/forkloop/cse622-milestone-reports}}.
+\subsection{Milestone 1}
+\begin{itemize}
+\item
+Set up the web application on \texttt{heroku}, has a simple public site.
+\item
+Develop the first version of Android application which is able to send some textual information and one photo to backend web application.
+\end{itemize}
+
+\subsection{Milestone 2}
+\begin{itemize}
+\item
+Rewrite \texttt{FormActivity} with \texttt{Fragment}, separate indoor and outdoor information form.
+\item
+Tweak on Android application, handle special scenarios when there is no location update, or network connection.
+\item
+Separate photo from issue model, allows multiple photos upload.
+\item
+Allow submitter to save submitted issues.
+\item
+Add admin site to web application.
+\end{itemize}
+\subsection{Milestone 3}
+\begin{itemize}
+\item
+Fully UI polishing for Android application, with designed icons, image buttons, new login activity, etc.
+\item
+Add audio recording function, allow submitter to also submit a short audio.
+\item
+Add a \texttt{MapView} to outdoor for submitter to adjust their location with Google Map interactively.
+\item
+Rewrite public site into Single-page application.
+\end{itemize}
 % That's all folks!
 \end{document}
